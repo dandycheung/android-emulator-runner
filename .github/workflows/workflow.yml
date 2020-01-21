@@ -13,7 +13,7 @@ jobs:
     timeout-minutes: 10
     strategy:
       matrix:
-        api-level: [21, 23, 29]
+        # api-level: [21, 23, 29]
         java-version: [9, 10, 11, 12 ,13]
     steps:
     - name: checkout
@@ -26,8 +26,8 @@ jobs:
         npm run lint
         npm test
 
-    - name: Prepare test fixture
-      run: cp -a ./test-fixture/* ./
+    # - name: Prepare test fixture
+    #   run: cp -a ./test-fixture/* ./
 
     - name: Setup Java
       uses: actions/setup-java@v1
@@ -43,6 +43,6 @@ jobs:
         profile: Nexus 6
         emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
         disable-animations: true
-        # script: |
+        script: java --version
         #   ./gradlew help
         #   ./gradlew connectedDebugAndroidTest
