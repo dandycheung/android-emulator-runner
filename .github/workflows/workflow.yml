@@ -3,7 +3,7 @@ on:
   pull_request:
   push:
     branches:
-      - master
+      - yc/**
     paths-ignore:
       - '**.md'
 
@@ -14,6 +14,7 @@ jobs:
     strategy:
       matrix:
         api-level: [21, 23, 29]
+        java-version: [9, 10, 11, 12 ,13]
     steps:
     - name: checkout
       uses: actions/checkout@v2
@@ -28,20 +29,20 @@ jobs:
     - name: Prepare test fixture
       run: cp -a ./test-fixture/* ./
 
-    - name: Java 13
+    - name: Setup Java
       uses: actions/setup-java@v1
       with:
-        java-version: 13
+        java-version: ${{ matrix.java-version }}
 
     - name: run action
       uses: ./
       with:
-        api-level: ${{ matrix.api-level }}
+        api-level: 23
         target: google_apis
         arch: x86
         profile: Nexus 6
         emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
         disable-animations: true
-        script: |
-          ./gradlew help
-          ./gradlew connectedDebugAndroidTest
+        # script: |
+        #   ./gradlew help
+        #   ./gradlew connectedDebugAndroidTest
